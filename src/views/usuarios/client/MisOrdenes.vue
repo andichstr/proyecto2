@@ -1,6 +1,25 @@
 <template>
-    <div>
-        {{ ordenes }}
+    <div class="container">
+        <h1>Mis Ordenes</h1>
+        <table class="table">
+            <thead>
+                <th>N° Orden</th>
+                <th>Productos</th>
+                <th>Fecha</th>
+                <th>Total</th>
+            </thead>
+            <tbody>
+                <tr v-for="item in ordenes" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>
+                        <p v-for="prod in item.products" :key="prod.id">{{ prod.stock }} {{ prod.name}}</p>
+                    </td>
+                    <td>{{ item.datetime }}</td>
+                    <td>{{ item.total }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <router-link to="/index" class="btn btn-danger">Volver</router-link>
     </div>
 </template>
 
@@ -12,23 +31,31 @@ export default {
     data() {
         return {
             userId: 0,
-            ordenes: []
+            ordenes: [],
+            productos: [],
         }
     },
     methods: {
         async getOrdenes() {
-            const result = await axios.get(process.env.VUE_APP_API_URL + 'users/' + userId + '/orders');
+            const result = await axios.get(process.env.VUE_APP_API_URL + 'users/' + this.userId + '/orders');
             this.ordenes = result.data;
+        },
+        async getProductos() {
+            const result = await axios.get(process.env.VUE_APP_API_URL + 'products');
+            this.productos = result.data;
         }
     },
     mounted() {
         this.userId = this.$route.params.id;
-        const result = axios.get(process.env.VUE_APP_API_URL + 'users/' + this.userId + '/orders');
-        this.ordenes = result.data;
-    }
+        this.getOrdenes();
+        this.getProductos();
+    },
 }
 </script>
 
-<style>
-
+<style scoped>
+    .container {
+        margin-top: 50px;
+        text-align: center;
+    }
 </style>

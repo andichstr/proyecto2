@@ -75,9 +75,9 @@ export default {
             let user = JSON.parse(localStorage.getItem('user'));
             let products = [];
             this.carrito.forEach(element => {
-                products.push(element.id);
+                products.push(element);
                 try {
-                    axios.put(process.env.VUE_APP_API_URL + 'products/' + element.id,this.productos[this.productos.indexOf(element)]);
+                    axios.put(process.env.VUE_APP_API_URL + 'products/' + element.id, this.productos[this.productos.indexOf(element)]);
                 } catch (err) {
                     console.log(err);
                 }
