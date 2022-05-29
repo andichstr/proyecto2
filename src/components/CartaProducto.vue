@@ -10,8 +10,10 @@
             <div>Disponibles: {{ producto.stock }}</div>
             <div>$ {{ producto.price }}</div>
             <input type="number" v-model="contador" @keyup="checkContador()"/>
-            <input type="button" :disabled="botonProductoDeshabilitado" class="botonCambiarCarrito" @click="cambiarCarrito()" :value="valorBotonProducto"/>
-            <router-link :to="{ name: 'Producto', params: { id: producto.id }}" class="botonVerDetalle">Ver detalle</router-link>
+            <input type="button" :disabled="botonProductoDeshabilitado" class="botonAgregarCarrito" @click="cambiarCarrito()" :value="valorBotonProducto"/>
+            <router-link :to="{ name: 'Producto', params: { id: producto.id }}">
+            <input type="button" class="botonVerDetalle" value="Ver detalle"/>
+            </router-link>
         </div>
     </div>
 </template>
@@ -100,7 +102,7 @@ export default {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.7);
 }
 
-.botonCambiarCarrito {
+.botonAgregarCarrito {
     background-color: #01d9ffd7;
     width: 130px;
     border-radius: 10px;

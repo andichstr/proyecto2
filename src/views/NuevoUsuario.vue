@@ -187,10 +187,11 @@ export default {
 
     .btn-agregar{
         background-color: #88B6CB;
+        margin-top: 5px;
     }
 
     .btnVolverDiv {
-        text-align: right;
+        text-align: center;
         margin-top: 5px;
     }
 </style>

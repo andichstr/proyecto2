@@ -12,6 +12,9 @@
                 <input type="number" v-model="contador" @keyup="checkContador()"/>
                 <input type="button" :disabled="botonProductoDeshabilitado" class="botonCambiarCarrito" @click="cambiarCarrito()" :value="valorBotonProducto"/>
         </div>
+            <router-link to="/index">
+                <input type="button" class="btn btn-danger" value="Volver"/>
+            </router-link>
     </div>
 </template>
 
@@ -108,9 +111,12 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
     .container {
         margin-top: 50px;
         text-align: center;
+    }
+    .btn-danger {
+        margin-top: 5px;
     }
 </style>
