@@ -20,7 +20,7 @@
             <div class="row">
                 <input type="button" class="btn btn-primary" value="Login" @click="Login"/>
             </div>
-            <div class="row">
+            <div class="row centrado">
                 <router-link to="/register">¿No estas registrado? ¡Registrate haciendo click aquí!</router-link>
             </div>
         </form>
@@ -71,5 +71,8 @@ export default {
     .container{
         width: 50%;
         padding-top: 200px;
+    }
+    .centrado {
+        text-align: center;
     }
 </style>
