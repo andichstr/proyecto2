@@ -11,21 +11,23 @@
                     <thead>
                         <tr>
                             <th class="tituloTabla col-2" scope="col">Cantidad</th>
-                            <th class="tituloTabla col-5" scope="col">Descripción</th>
-                            <th class="tituloTabla col-5" scope="col">Precio</th>
+                            <th class="tituloTabla col-4" scope="col">Descripción</th>
+                            <th class="tituloTabla col-4" scope="col">Precio</th>
+                            <th class="tituloTabla col-2" scope="col">Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(item) in productos" :key="item.id">
-                            <td class="col-2">{{ item.cantidad }}</td>
-                            <td class="col-5">{{ item.nombre }}</td>
-                            <td class="col-5">$ {{ item.precio * item.cantidad }}</td>
+                            <td class="col-2">{{ item.stock }}</td>
+                            <td class="col-4">{{ item.name }}</td>
+                            <td class="col-4">$ {{ item.price * item.stock }}</td>
+                            <td class="col-2"><input type="button" class="btn btn-danger" value="Eliminar" @click="eliminarProductoCarrito(item.id)"></td>
                         </tr>
                     </tbody>
                 </table>
                 <h4>Total: $ {{ precioTotal }}</h4>
                 <div class="finalizarCompraDiv">
-                    <button class="finalizarCompraButton">Finalizar Compra</button>
+                    <button class="finalizarCompraButton" @click="createOrder(precioTotal)">Finalizar Compra</button>
                 </div>
             </div>
             <div v-else>
@@ -53,14 +55,14 @@ export default {
         cantidadTotal() {
             let cantidadTotal = 0;
             this.productos.forEach(element => {
-                cantidadTotal = cantidadTotal + element.cantidad;
+                cantidadTotal = cantidadTotal + element.stock;
             });
             return cantidadTotal;
         },
         precioTotal() {
             let precioTotal = 0;
             this.productos.forEach(element => {
-                precioTotal = precioTotal + (element.precio * element.cantidad);
+                precioTotal = precioTotal + (element.price * element.stock);
             });
             return precioTotal;
         },
@@ -69,6 +71,12 @@ export default {
         desplegarCarrito() {
             this.desplegado = !this.desplegado;
         },
+        eliminarProductoCarrito(id) {
+            this.$emit('eliminar-producto-carrito', id);
+        },
+        createOrder(precioTotal){
+            this.$emit('create-order', precioTotal);
+        }
     },
 }
 </script>

@@ -2,45 +2,29 @@
     <div>
         <div class="grillaProducto">
             <img
-                v-if="producto.favorito"
-                src="https://imgur.com/AIB3m4K"
-                alt="favorito"
-                class="favorito"
-                @click="cambiarFav()"
-            />
-            <img
-                v-if="!producto.favorito"
-                src="https://imgur.com/eWbb8jw"
-                alt="favorito"
-                class="favorito"
-                @click="cambiarFav()"
-            />
-            <img
                 :alt="producto.name"
                 :src="producto.img"
                 class="imgGrilla"
             />
             <h4>{{ producto.name }}</h4>
-            <div>Stock: {{ producto.stock }}</div>
+            <div>Disponibles: {{ producto.stock }}</div>
             <div>$ {{ producto.price }}</div>
-            <ContadorProducto :stock="producto.stock" @mi-contador="miContador" @sumar-stock="sumarStock" @restar-stock="restarStock"/>
+            <input type="number" v-model="contador" @keyup="checkContador()"/>
             <input type="button" :disabled="botonProductoDeshabilitado" class="botonCambiarCarrito" @click="cambiarCarrito()" :value="valorBotonProducto"/>
+            <router-link :to="{ name: 'Producto', params: { id: producto.id }}" class="botonVerDetalle">Ver detalle</router-link>
         </div>
     </div>
-
 </template>
 
 <script>
-import ContadorProducto from '@/components/ContadorProducto.vue';
 
 export default {
-    components:{ ContadorProducto },
+    name: 'CartaProducto',
     data() {
         return {
-            valorBotonProducto: "Sin seleccionar",
+            valorBotonProducto: "Agregar",
             contador: 0,
-            contadorCarrito: 0,
-            botonProductoDeshabilitado: true,
+            botonProductoDeshabilitado: false,
         }
     },
     props:{
@@ -49,51 +33,37 @@ export default {
             required: true
         },
     },
+    mounted() {
+        this.stock = this.producto.stock;
+    },
     methods: {
         cambiarCarrito() {
-            this.$emit("cambiar-carrito", this.producto.id, this.contador);
-            this.contadorCarrito = this.contador;
-            if (this.contador != 0) {
-                this.valorBotonProducto = "En carrito";
-                this.botonProductoDeshabilitado = true;
-            } else {
-                this.valorBotonProducto = "Sin seleccionar";
-                this.botonProductoDeshabilitado = true;
+            this.$emit("agregar-carrito", this.producto.id, Number(this.contador));
+            this.producto.stock -= this.contador;
+            this.contador = 0;
+            this.checkStock();
+        },
+        checkContador() {
+            if (this.contador > this.producto.stock){
+                this.contador = this.producto.stock;
+            } else if (this.contador < 0) {
+                this.contador = 0;
             }
+            this.checkStock();
         },
-        cambiarFav() {
-            this.$emit("cambiar-fav", this.producto.id);
-        },
-        sumarStock(){
-            this.$emit('sumar-stock-producto', this.producto.id)
-        },
-        restarStock(){
-            this.$emit('restar-stock-producto', this.producto.id)
-        },
-        miContador(cont){
-            this.contador = cont;
+        checkStock() {
+            if (this.producto.stock == 0){
+                this.botonProductoDeshabilitado = true;
+                this.valorBotonProducto = "Sin stock";
+            } else if (this.producto.stock != 0 && this.contador == 0) {
+                this.botonProductoDeshabilitado = true;
+                this.valorBotonProducto = "Agregar";
+            } else {
+                this.botonProductoDeshabilitado = false;
+                this.valorBotonProducto = "Agregar";
+            }
         }
     },
-    watch: {
-        contador(val){
-            if (val == this.contadorCarrito){
-                if (this.contadorCarrito != 0){
-                this.valorBotonProducto = "En carrito";
-                this.botonProductoDeshabilitado = true;
-                }else{
-                    this.valorBotonProducto = "Sin seleccionar";
-                    this.botonProductoDeshabilitado = true;
-                }
-            } else if (val < this.contadorCarrito){
-                this.valorBotonProducto = "Restar";
-                this.botonProductoDeshabilitado = false;
-            } else {
-                this.valorBotonProducto = "Agregar";
-                this.botonProductoDeshabilitado = false;
-            }
-        }
-    }
-
 }
 </script>
 
@@ -143,6 +113,20 @@ export default {
 
 .botonAgregarCarrito:hover {
     background-color: #0aa19ad0;
+}
+.botonVerDetalle {
+    background-color: burlywood;
+    width: 130px;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: 1.1em;
+    padding: 5px 0;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.botonVerDetalle:hover {
+    background-color: rgb(109, 88, 61);
 }
 
 </style>

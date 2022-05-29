@@ -4,7 +4,7 @@
             <thead>
                 <th>#</th>
                 <th>Imagen</th>
-                <th>Descripción</th>
+                <th>Nombre</th>
                 <th>Precio</th>
                 <th>Stock</th>
                 <th>Editar</th>

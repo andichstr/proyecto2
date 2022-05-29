@@ -38,6 +38,11 @@ const routes = [
       path: "/editarProducto/:id",
       name: "EditarProducto",
       component: () => import("../views/usuarios/admin/EditarProducto.vue")
+  },
+  {
+      path: "/misOrdenes/:id",
+      name: "MisOrdenes",
+      component: () => import("../views/usuarios/client/MisOrdenes.vue")
   }
 ];
 

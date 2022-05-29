@@ -1,14 +1,20 @@
 <template>
-    <div>
+<div>
+    <div class="divMisOrdenes">
+        <router-link :to="{ name: 'MisOrdenes', params: { id: usuario.id }}" class="btn btnMisOrdenes">Mis ordenes</router-link>
+    </div>
+    <div class="usuarios">
         <h1>Bienvenido/a {{ usuario.name }}</h1>
         <Productos/>
     </div>
+</div>
 </template>
 
 <script>
 import Productos from '../../../components/Productos.vue';
 
 export default {
+    name: 'Usuario',
     components: { Productos },
     data() {
         return {
@@ -31,5 +37,16 @@ export default {
 </script>
 
 <style>
-
+    .usuarios {
+        margin-top: 50px;
+        text-align: center;
+    }
+    .divMisOrdenes {
+        text-align: center;
+        top: 0;
+    }
+    .btnMisOrdenes {
+        background-color: chocolate;
+        font-weight: bold;
+    }
 </style>

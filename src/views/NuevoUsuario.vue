@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <router-link to="/"><button class="btn btn-danger">Volver</button></router-link>
+        <h1>Nuevo Usuario</h1>
         <form class="form" action="">
             <div class="row">
                 <div class="col-3">
@@ -61,6 +61,9 @@
                 <input type="button" class="btn btn-agregar" value="Agregar" @click="agregarUsuario"/>
             </div>
         </form>
+        <div class="btnVolverDiv">
+            <router-link to="/"><button class="btn btn-danger">Volver</button></router-link>
+        </div>
     </div>
 </template>
 
@@ -186,4 +189,8 @@ export default {
         background-color: #88B6CB;
     }
 
+    .btnVolverDiv {
+        text-align: right;
+        margin-top: 5px;
+    }
 </style>
