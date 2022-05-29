@@ -42,7 +42,7 @@ export default {
     data() {
         return {
             desplegado: false,
-            imagenCerrar: "https://imgur.com/JyKCGKd",
+            imagenCerrar: "https://i.imgur.com/JyKCGKd.png",
         };
     },
     props:{

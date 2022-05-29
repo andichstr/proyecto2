@@ -12,7 +12,7 @@
                 <tr v-for="item in ordenes" :key="item.id">
                     <td>{{ item.id }}</td>
                     <td>
-                        <p v-for="prod in item.products" :key="prod.id">{{ prod.stock }} {{ prod.name}}</p>
+                        <p v-for="prod in item.products" :key="prod.id"><img :src="prod.img" :alt="prod.name" class="imgProd"/> {{ prod.stock }} {{ prod.name }}</p>
                     </td>
                     <td>{{ item.datetime }}</td>
                     <td>{{ item.total }}</td>
@@ -57,5 +57,9 @@ export default {
     .container {
         margin-top: 50px;
         text-align: center;
+    }
+    .imgProd {
+        height: 40px;
+        width: 40px;
     }
 </style>
