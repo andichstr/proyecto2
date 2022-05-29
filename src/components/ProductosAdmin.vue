@@ -13,7 +13,7 @@
             <tbody>
                 <tr v-for="(product, i) in productos" :key="product.id">
                     <td>{{ product.id }}</td>
-                    <td><img :src="product.img" :alt="product.name"></td>
+                    <td><img :src="product.img" :alt="product.name" class="imgProd"></td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
                     <td>{{ product.stock }}</td>
@@ -63,5 +63,8 @@ export default {
 <style scoped>
     .container{
         padding-top: 80px;
+    }
+    .imgProd {
+        height: 100px;
     }
 </style>
