@@ -116,8 +116,6 @@ export default {
             localStorage.setItem('carrito', JSON.stringify(this.carrito));
         },
         calcularStockProductos() {
-            console.log("Mi carrito: " + this.carrito);
-            console.log("Mis productos: " + this.productos);
             this.carrito.forEach(productoCarrito => {
                 this.productos.forEach(producto => {
                     if (productoCarrito.id == producto.id) {

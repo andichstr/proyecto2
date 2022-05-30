@@ -4,7 +4,7 @@
             <Carrito :productos="this.carrito" @eliminar-producto-carrito="eliminarProductoEnCarrito"/>
         </div>
         <div class="container">
-            <img :alt="producto.name" :src="producto.img"/>
+            <img :alt="producto.name" :src="producto.img" class="imgProducto"/>
                 <h1>{{ producto.name }}</h1>
                 <h4>{{ producto.desc }}</h4>
                 <div>Disponibles: {{ producto.stock }}</div>
@@ -158,5 +158,8 @@ export default {
     }
     .btn-danger {
         margin-top: 5px;
+    }
+    .imgProducto {
+        max-height: 250px;
     }
 </style>
