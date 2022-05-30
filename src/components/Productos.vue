@@ -27,7 +27,8 @@ export default {
         this.getProductos();
         if (localStorage.getItem('carrito')){
             this.carrito = JSON.parse(localStorage.getItem('carrito'));
-        }
+        };
+        setTimeout(()=>{this.calcularStockProductos()}, 2000);
     },
     methods:{
         async getProductos() {
@@ -60,24 +61,41 @@ export default {
             }
         },
         eliminarProductoEnCarrito(id) {
-            const prod = (element) => element = id;
-            let indexProducto = this.carrito.findIndex(prod);
-            if (indexProducto){
-                const cant = this.carrito[indexProducto].stock;
-                this.producto.stock += cant;
-                this.carrito.splice(indexProducto, 1);
+            let indexProducto = -1;
+            let indexProductoCarrito = -1;
+            for(var i = 0; i < this.carrito.length; i++) {
+                if (this.carrito[i].id == id) {
+                    indexProductoCarrito = i;
+                }
+            };
+            for(var a = 0; a < this.productos.length; a++) {
+                if (this.productos[a].id == id) {
+                    indexProducto = a;
+                }
+            }
+            if (indexProducto!=-1){
+                const cant = this.carrito[indexProductoCarrito].stock;
+                this.productos[indexProducto].stock += cant;
+                this.carrito.splice(indexProductoCarrito, 1);
                 localStorage.setItem('carrito', JSON.stringify(this.carrito));
             }
         },
         async createOrder(total) {
             console.log(total);
-            let p;
+            let id;
             let user = JSON.parse(localStorage.getItem('user'));
             let products = [];
             this.carrito.forEach(element => {
                 products.push(element);
+                for(var i = 0; i < this.productos.length; i++) {
+                    if(this.productos[i].id == element.id) {
+                        id = i;
+                    }
+                }
                 try {
-                    axios.put(process.env.VUE_APP_API_URL + 'products/' + element.id, this.productos[this.productos.indexOf(element)]);
+                    console.log(this.productos[id]);
+                    const urlAPI=`${process.env.VUE_APP_API_URL}products/${element.id}`;
+                    axios.put(urlAPI, this.productos[id]);
                 } catch (err) {
                     console.log(err);
                 }
@@ -96,6 +114,17 @@ export default {
             };
             this.carrito = [];
             localStorage.setItem('carrito', JSON.stringify(this.carrito));
+        },
+        calcularStockProductos() {
+            console.log("Mi carrito: " + this.carrito);
+            console.log("Mis productos: " + this.productos);
+            this.carrito.forEach(productoCarrito => {
+                this.productos.forEach(producto => {
+                    if (productoCarrito.id == producto.id) {
+                        producto.stock -= productoCarrito.stock;
+                    }
+                });
+            });
         }
     },
 }

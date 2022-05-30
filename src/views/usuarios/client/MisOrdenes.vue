@@ -43,7 +43,8 @@ export default {
         async getProductos() {
             const result = await axios.get(process.env.VUE_APP_API_URL + 'products');
             this.productos = result.data;
-        }
+        },
+        
     },
     mounted() {
         this.userId = this.$route.params.id;
