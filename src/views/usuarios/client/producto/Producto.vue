@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div>
-            <Carrito :productos="this.carrito" @eliminar-producto-carrito="eliminarProductoEnCarrito"/>
+            <Carrito :productos="this.carrito" @eliminar-producto-carrito="eliminarProductoEnCarrito" @create-order="createOrder"/>
         </div>
         <div class="container">
             <img :alt="producto.name" :src="producto.img" class="imgProducto"/>
@@ -29,6 +29,7 @@ export default {
         return {
             contador: 0,
             carrito: [],
+            productos:[],
             producto: {
                 id: 0,
                 name: "",
@@ -41,6 +42,18 @@ export default {
         };
     },
     methods: {
+        async getProductos() {
+            try {
+                const result = await axios.get(process.env.VUE_APP_API_URL + '/products');
+                this.productos = result.data;
+                this.productos.forEach(element => {
+                    element.stock = Number(element.stock);
+                    element.price = Number(element.price);
+                });
+            } catch (err) {
+                console.log(err);
+            }
+        },
         async getProducto(id) {
             const result = await axios.get(process.env.VUE_APP_API_URL + "products/" + id);
             this.producto = result.data;
@@ -100,7 +113,6 @@ export default {
             }
         },
         async createOrder(total) {
-            console.log(total);
             let id;
             let user = JSON.parse(localStorage.getItem('user'));
             let products = [];
@@ -143,6 +155,7 @@ export default {
         }
     },
     mounted() {
+        this.getProductos();
         this.getProducto(this.$route.params.id);
         this.carrito = JSON.parse(localStorage.getItem('carrito'));
         setTimeout(()=>{this.calcularStockProductos()}, 2000);

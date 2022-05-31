@@ -29,6 +29,9 @@ export default {
     },
     mounted() {
         this.usuario = JSON.parse(localStorage.getItem('user'));
+        if(this.usuario.isAdmin) {
+            this.$router.push('/');
+        }
     },
     methods: {
 
