@@ -81,7 +81,6 @@ export default {
             }
         },
         async createOrder(total) {
-            console.log(total);
             let id;
             let user = JSON.parse(localStorage.getItem('user'));
             let products = [];
@@ -93,7 +92,6 @@ export default {
                     }
                 }
                 try {
-                    console.log(this.productos[id]);
                     const urlAPI=`${process.env.VUE_APP_API_URL}products/${element.id}`;
                     axios.put(urlAPI, this.productos[id]);
                 } catch (err) {
@@ -106,7 +104,6 @@ export default {
                 datetime: Date(),
                 total: total
             };
-            console.log(order);
             try {
                 await axios.post(process.env.VUE_APP_API_URL + 'users/' + user.id + '/orders', order);
             } catch (err) {

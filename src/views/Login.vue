@@ -41,9 +41,6 @@ export default {
             }
         }
     },
-    mounted() {
-        console.log(localStorage.getItem('user'));
-    },
     methods: {
         async Login(){
             const users = await axios.get(process.env.VUE_APP_API_URL + "/users");
